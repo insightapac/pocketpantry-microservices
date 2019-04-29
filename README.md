@@ -1,1 +1,2 @@
-# pocketpantry-microservices
+# PocketPantry - Microservices
+Microservices for OzHarvest Pocket Pantry.
