@@ -7,6 +7,8 @@ trigger:
 - master
 - feature/*
 
+pr: none
+
 variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
@@ -15,22 +17,53 @@ variables:
 stages:
 - stage: Build
   jobs:
-    - template: .azuredevops/templates/build.yml  # Template reference
+    - job: Build
+      pool:
+        vmImage: 'windows-latest'
+      steps:
+      - task: DotNetCoreCLI@2
+        displayName: Build
+        inputs:
+          command: build
+          projects: 'src/**/*.csproj'
+          arguments: '--configuration Release' # Update this to match your need
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: test
+          projects: 'src/Tests/**/*.csproj'
+          arguments: '--configuration $(buildConfiguration)'
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: publish
+          publishWebProjects: True
+          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+          zipAfterPublish: True
+          
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'WebApps'
+          publishLocation: 'Container'
 
 - stage: Development
+  dependsOn: build
   jobs:
-  - template: .azuredevops/templates/deployment.yml 
-    parameters:
-      environment: Development
-  
-- stage: Test
-  jobs:
-  - template: .azuredevops/templates/deployment.yml 
-    parameters:
-      environment: Test
-  
-- stage: Production
-  jobs:
-  - template: .azuredevops/templates/deployment.yml 
-    parameters:
-      environment: Test
+    # track deployments on the environment
+  - deployment: DeployWeb
+    pool:
+      vmImage: 'windows-latest'
+    # creates an environment if it doesn’t exist
+    environment: '${{ parameters.environment }}'
+    strategy:
+      # default deployment strategy
+      runOnce:
+        deploy:
+          steps:
+            # Download an artifact named 'WebApp' to 'bin' in $(Build.SourcesDirectory)
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                artifact: 'WebApps'
+                path: $(Build.SourcesDirectory)
+            
