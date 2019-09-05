@@ -55,7 +55,7 @@ stages:
     pool:
       vmImage: 'windows-latest'
     # creates an environment if it doesn’t exist
-    environment: '${{ parameters.environment }}'
+    environment: Development
     strategy:
       # default deployment strategy
       runOnce:
@@ -67,3 +67,10 @@ stages:
                 artifact: 'WebApps'
                 path: $(Build.SourcesDirectory)
             
+            - task: AzureRmWebAppDeployment@4
+              inputs:
+                ConnectionType: 'AzureRM'
+                azureSubscription: 'AzureLeighShayler'
+                appType: 'webApp'
+                WebAppName: 'pocketpantrymobile'
+                packageForLinux: '$(System.DefaultWorkingDirectory)/**/shopping.zip'
