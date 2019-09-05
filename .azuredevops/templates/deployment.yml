@@ -1,0 +1,13 @@
+  jobs:
+    # track deployments on the environment
+  - deployment: DeployWeb
+    pool:
+      vmImage: 'windows-latest'
+    # creates an environment if it doesn’t exist
+    environment: '${{ parameters.environment }}'
+    strategy:
+      # default deployment strategy
+      runOnce:
+        deploy:
+          steps:
+          - script: echo my first deployment
