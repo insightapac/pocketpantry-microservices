@@ -48,7 +48,7 @@ stages:
           publishLocation: 'Container'
 
 - stage: Development
-  dependsOn: build
+  dependsOn: Build
   jobs:
     # track deployments on the environment
   - deployment: DeployWeb
