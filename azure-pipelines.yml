@@ -25,13 +25,13 @@ stages:
         displayName: Build
         inputs:
           command: build
-          projects: 'src/**/*.csproj'
+          projects: 'src/shopping/shopping.csproj'
           arguments: '--configuration Release' # Update this to match your need
 
       - task: DotNetCoreCLI@2
         inputs:
           command: test
-          projects: 'src/Tests/**/*.csproj'
+          projects: 'src/Shopping.Test/Shopping.Test.csproj'
           arguments: '--configuration $(buildConfiguration)'
 
       - task: DotNetCoreCLI@2
