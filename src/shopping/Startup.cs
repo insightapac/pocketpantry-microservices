@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Shopping.Data;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace shopping
@@ -31,7 +33,9 @@ namespace shopping
             services.AddSwaggerGen(c =>  
             {  
                 c.SwaggerDoc("v1", new Info { Title = "ShoppingList API", Version = "v1" });  
-            });  
+            });
+            services.AddDbContext<ShoppingDataContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("SQLConnectionString"))
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +57,8 @@ namespace shopping
             });
             app.UseHttpsRedirection();
             app.UseMvc();
+            services.AddDbContext<KnowledgeBaseServiceDataContext>(options =>
+				options.UseSqlServer(Configuration.GetConnectionString("Generic"))
         }
     }
 }

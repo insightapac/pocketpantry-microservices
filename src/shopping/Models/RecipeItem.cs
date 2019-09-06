@@ -1,15 +1,17 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Shopping.Models
 {
-    [Table("ShoppingListItem")]
-    public class ShoppingListItem
+    [Table("RecipeItem")]
+    public class RecipeItem
     {
         public int Id { get; set; }
-       
-        public virtual ShoppingList ShoppingList { get; set; }
+        public int ItemID { get; set; }        
+        public virtual Recipe Recipe { get; set; }        
         public virtual ICollection<FoodItem> FoodItem { get; set; }
     }
 }
