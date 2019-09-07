@@ -40,7 +40,7 @@ namespace Shopping.Controllers
                     Name = x.Name
                 });
            });
-            throw new Exception("No meal plans!");
+            return list;
         }
     }
 }
