@@ -1,16 +1,17 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shopping.Models
 {
-    [Table("ShoppingListItem")]
-    public class ShoppingListItem
+    public partial class ShoppingListItem
     {
-        public int Id { get; set; }        
-        public int Qty { get; set; }
+        public int Id { get; set; }
+        public int ShoppingListId { get; set; }
+        public double Qty { get; set; }
         public string Unit { get; set; }
-        public virtual ShoppingList ShoppingList { get; set; }      
-        public ICollection<FoodItem> FoodItems { get; set; }
+        public int FoodItemId { get; set; }
+
+        public FoodItem FoodItem { get; set; }
+        public ShoppingList ShoppingList { get; set; }
     }
 }

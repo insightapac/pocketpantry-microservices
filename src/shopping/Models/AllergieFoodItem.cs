@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Shopping.Models
 {
-    [Table("AllergieFoodItem")]
-    public class AllergieFoodItem
+    public partial class AllergieFoodItem
     {
         public int Id { get; set; }
-        public virtual User User { get; set; }
-        public virtual ICollection<FoodItem> FoodItems { get; set; }
+        public int UserId { get; set; }
+        public int FoodItemId { get; set; }
+
+        public FoodItem FoodItem { get; set; }
+        public User User { get; set; }
     }
 }
