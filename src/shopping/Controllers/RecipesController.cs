@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Shopping.Common;
 using Shopping.Data;
 using Shopping.Models;
+using Shopping.Models.Dtos;
 
 namespace Shopping.Controllers
 {
@@ -29,10 +31,19 @@ namespace Shopping.Controllers
             return _context.Recipe;
         }
 
-        [HttpGet]
-        public IEnumerable<MealPlanRecipe> GetMealPlanRecipe()
-        {
-            return  _context.MealPlanRecipe;                       
+        [HttpGet("RecipeCollection")]
+        public IEnumerable<CategoryDto> GetRecipeCollection()
+        {   
+            IList<CategoryDto> list = new List<CategoryDto>();
+            _context.Category.ToList().ForEach(x => {
+                list.Add(new CategoryDto
+                {
+                    Filters = JsonConvert.DeserializeObject<string[]>(x.Filters),
+                    Img = x.ImageUri,
+                    Name = x.Name
+                });
+            });
+            return list;
         }
 
         // GET: api/Recipes/5

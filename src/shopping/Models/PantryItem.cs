@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Shopping.Models
 {
-    [Table("PantryItem")]
-    public class PantryItem
+    public partial class PantryItem
     {
+        public PantryItem()
+        {
+            RecipeItem = new HashSet<RecipeItem>();
+        }
+
         public int Id { get; set; }
-        public string Name { get; set; }
-        public virtual Pantry Pantry { get; set; }
-        public virtual ICollection<FoodItem> FoodItem { get; set; }
+        public int PantryId { get; set; }
+        public int FoodItemId { get; set; }
+        public string Qty { get; set; }
+        public string Unit { get; set; }
+
+        public FoodItem FoodItem { get; set; }
+        public Pantry Pantry { get; set; }
+        public ICollection<RecipeItem> RecipeItem { get; set; }
     }
 }

@@ -1,16 +1,20 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shopping.Models
 {
-    [Table("ShoppingList")]
-    public class ShoppingList
+    public partial class ShoppingList
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        public ShoppingList()
+        {
+            ShoppingListItem = new HashSet<ShoppingListItem>();
+        }
 
-        public virtual ICollection<ShoppingListItem> ShoppingListItem { get; set; }
+        public int Id { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public int UserId { get; set; }
+
+        public User User { get; set; }
+        public ICollection<ShoppingListItem> ShoppingListItem { get; set; }
     }
 }
