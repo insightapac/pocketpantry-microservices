@@ -31,7 +31,7 @@ namespace Shopping.Controllers
             return _context.Recipe;
         }
 
-        [HttpGet("GetRecipeCollection")]
+        [HttpGet("RecipeCollection")]
         public IEnumerable<CategoryDto> GetRecipeCollection()
         {   
             IList<CategoryDto> list = new List<CategoryDto>();

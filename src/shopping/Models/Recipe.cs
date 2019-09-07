@@ -14,18 +14,18 @@ namespace Shopping.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public int PreperationTime { get; set; }
-        public int CookTime { get; set; }
-        public int Servings { get; set; }
-        public byte[] Difficulty { get; set; }
-        public int Energy { get; set; }
-        public double FatTotal { get; set; }
-        public double SaturatedFat { get; set; }
-        public double Fibre { get; set; }
-        public double Protein { get; set; }
-        public double Sodium { get; set; }
-        public double CarbsSugar { get; set; }
-        public double CarbsTotal { get; set; }
+        public string PreperationTime { get; set; }
+        public string CookTime { get; set; }
+        public string Servings { get; set; }
+        public string Difficulty { get; set; }
+        public string Energy { get; set; }
+        public string FatTotal { get; set; }
+        public string SaturatedFat { get; set; }
+        public string Fibre { get; set; }
+        public string Protein { get; set; }
+        public string Sodium { get; set; }
+        public string CarbsSugar { get; set; }
+        public string CarbsTotal { get; set; }
         public int NumIngredients { get; set; }
         public int RecipeCategoryId { get; set; }
 
