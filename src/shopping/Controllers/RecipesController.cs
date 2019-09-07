@@ -31,7 +31,7 @@ namespace Shopping.Controllers
 
         [HttpGet]
         public IEnumerable<RecipeCollection> GetRecipeCollection()
-        {
+        {            
             return  _context.RecipeCollection;                       
         }
 
