@@ -7,7 +7,7 @@ namespace Shopping.Models
     {
         public int Id { get; set; }
         public int ShoppingListId { get; set; }
-        public double Qty { get; set; }
+        public string Qty { get; set; }
         public string Unit { get; set; }
         public int FoodItemId { get; set; }
 
