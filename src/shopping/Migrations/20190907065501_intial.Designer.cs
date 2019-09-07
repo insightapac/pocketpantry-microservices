@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shopping.Data;
 
 namespace Shopping.Migrations
 {
     [DbContext(typeof(ShoppingDataContext))]
-    partial class ShoppingDataContextModelSnapshot : ModelSnapshot
+    [Migration("20190907065501_intial")]
+    partial class intial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,19 +29,7 @@ namespace Shopping.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("PantryItemId");
-
-                    b.Property<int?>("RecipeItemId");
-
-                    b.Property<int?>("ShoppingListItemId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PantryItemId");
-
-                    b.HasIndex("RecipeItemId");
-
-                    b.HasIndex("ShoppingListItemId");
 
                     b.ToTable("FoodItem");
                 });
@@ -120,11 +110,16 @@ namespace Shopping.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("FoodItemID");
+
                     b.Property<string>("Name");
 
                     b.Property<int?>("PantryId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FoodItemID")
+                        .IsUnique();
 
                     b.HasIndex("PantryId");
 
@@ -137,13 +132,61 @@ namespace Shopping.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CarbsSugar");
+
+                    b.Property<string>("CarbsTotal");
+
+                    b.Property<string>("CookTime");
+
+                    b.Property<string>("Difficulty");
+
+                    b.Property<string>("Energy");
+
+                    b.Property<string>("FatTotal");
+
+                    b.Property<string>("Fibre");
+
+                    b.Property<string>("ImageURL");
+
+                    b.Property<int>("NumIngredients");
+
+                    b.Property<string>("PreparationTime");
+
+                    b.Property<string>("Protein");
+
                     b.Property<int>("RecipeCollectionID");
 
                     b.Property<string>("RecipeName");
 
+                    b.Property<string>("SaturatedFat");
+
+                    b.Property<string>("Servings");
+
+                    b.Property<string>("ShortDescription");
+
+                    b.Property<string>("Sodium");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("RecipeCollectionID")
+                        .IsUnique();
+
                     b.ToTable("Recipe");
+                });
+
+            modelBuilder.Entity("Shopping.Models.RecipeCollection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageURL");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RecipeCollection");
                 });
 
             modelBuilder.Entity("Shopping.Models.RecipeItem", b =>
@@ -152,11 +195,20 @@ namespace Shopping.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("FoodItemID");
+
                     b.Property<int>("ItemID");
+
+                    b.Property<int?>("PantryItemId");
 
                     b.Property<int?>("RecipeId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FoodItemID")
+                        .IsUnique();
+
+                    b.HasIndex("PantryItemId");
 
                     b.HasIndex("RecipeId");
 
@@ -204,9 +256,14 @@ namespace Shopping.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("FoodItemID");
+
                     b.Property<int?>("ShoppingListId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FoodItemID")
+                        .IsUnique();
 
                     b.HasIndex("ShoppingListId");
 
@@ -224,21 +281,6 @@ namespace Shopping.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("Shopping.Models.FoodItem", b =>
-                {
-                    b.HasOne("Shopping.Models.PantryItem", "PantryItem")
-                        .WithMany("FoodItem")
-                        .HasForeignKey("PantryItemId");
-
-                    b.HasOne("Shopping.Models.RecipeItem", "RecipeItem")
-                        .WithMany("FoodItem")
-                        .HasForeignKey("RecipeItemId");
-
-                    b.HasOne("Shopping.Models.ShoppingListItem", "ShoppingListItem")
-                        .WithMany("FoodItem")
-                        .HasForeignKey("ShoppingListItemId");
                 });
 
             modelBuilder.Entity("Shopping.Models.MealCategory", b =>
@@ -270,13 +312,35 @@ namespace Shopping.Migrations
 
             modelBuilder.Entity("Shopping.Models.PantryItem", b =>
                 {
-                    b.HasOne("Shopping.Models.Pantry", "Pantry")
+                    b.HasOne("Shopping.Models.FoodItem", "FoodItem")
+                        .WithOne("PantryItem")
+                        .HasForeignKey("Shopping.Models.PantryItem", "FoodItemID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Shopping.Models.Pantry")
                         .WithMany("PantryItem")
                         .HasForeignKey("PantryId");
                 });
 
+            modelBuilder.Entity("Shopping.Models.Recipe", b =>
+                {
+                    b.HasOne("Shopping.Models.RecipeCollection")
+                        .WithOne("Recipe")
+                        .HasForeignKey("Shopping.Models.Recipe", "RecipeCollectionID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Shopping.Models.RecipeItem", b =>
                 {
+                    b.HasOne("Shopping.Models.FoodItem", "FoodItem")
+                        .WithOne("RecipeItem")
+                        .HasForeignKey("Shopping.Models.RecipeItem", "FoodItemID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Shopping.Models.PantryItem", "PantryItem")
+                        .WithMany("RecipeItem")
+                        .HasForeignKey("PantryItemId");
+
                     b.HasOne("Shopping.Models.Recipe", "Recipe")
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipeId");
@@ -299,6 +363,11 @@ namespace Shopping.Migrations
 
             modelBuilder.Entity("Shopping.Models.ShoppingListItem", b =>
                 {
+                    b.HasOne("Shopping.Models.FoodItem", "FoodItem")
+                        .WithOne("ShoppingListItem")
+                        .HasForeignKey("Shopping.Models.ShoppingListItem", "FoodItemID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Shopping.Models.ShoppingList", "ShoppingList")
                         .WithMany("ShoppingListItem")
                         .HasForeignKey("ShoppingListId");

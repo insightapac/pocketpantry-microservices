@@ -10,6 +10,7 @@ namespace Shopping.Models
         public int Id { get; set; }
        
         public virtual ShoppingList ShoppingList { get; set; }
-        public virtual ICollection<FoodItem> FoodItem { get; set; }
+        public int FoodItemID { get; set; }
+        public FoodItem FoodItem { get; set; }
     }
 }

@@ -3,10 +3,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Shopping.Migrations
 {
-    public partial class initial : Migration
+    public partial class intial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "FoodItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodItem", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "MealPlan",
                 columns: table => new
@@ -21,16 +34,17 @@ namespace Shopping.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RecipeCategory",
+                name: "RecipeCollection",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    ImageURL = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RecipeCategory", x => x.Id);
+                    table.PrimaryKey("PK_RecipeCollection", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,15 +87,30 @@ namespace Shopping.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     RecipeName = table.Column<string>(nullable: true),
-                    RecipeCategoryId = table.Column<int>(nullable: false)
+                    ImageURL = table.Column<string>(nullable: true),
+                    ShortDescription = table.Column<string>(nullable: true),
+                    PreparationTime = table.Column<string>(nullable: true),
+                    CookTime = table.Column<string>(nullable: true),
+                    Servings = table.Column<string>(nullable: true),
+                    Difficulty = table.Column<string>(nullable: true),
+                    Energy = table.Column<string>(nullable: true),
+                    FatTotal = table.Column<string>(nullable: true),
+                    SaturatedFat = table.Column<string>(nullable: true),
+                    Fibre = table.Column<string>(nullable: true),
+                    Protein = table.Column<string>(nullable: true),
+                    Sodium = table.Column<string>(nullable: true),
+                    CarbsSugar = table.Column<string>(nullable: true),
+                    CarbsTotal = table.Column<string>(nullable: true),
+                    NumIngredients = table.Column<int>(nullable: false),
+                    RecipeCollectionID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Recipe", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Recipe_RecipeCategory_RecipeCategoryId",
-                        column: x => x.RecipeCategoryId,
-                        principalTable: "RecipeCategory",
+                        name: "FK_Recipe_RecipeCollection_RecipeCollectionID",
+                        column: x => x.RecipeCollectionID,
+                        principalTable: "RecipeCollection",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -153,26 +182,6 @@ namespace Shopping.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RecipeItem",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ItemID = table.Column<int>(nullable: false),
-                    RecipeId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RecipeItem", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RecipeItem_Recipe_RecipeId",
-                        column: x => x.RecipeId,
-                        principalTable: "Recipe",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "RecipeSteps",
                 columns: table => new
                 {
@@ -200,11 +209,18 @@ namespace Shopping.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
+                    FoodItemID = table.Column<int>(nullable: false),
                     PantryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PantryItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PantryItem_FoodItem_FoodItemID",
+                        column: x => x.FoodItemID,
+                        principalTable: "FoodItem",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PantryItem_Pantry_PantryId",
                         column: x => x.PantryId,
@@ -219,11 +235,18 @@ namespace Shopping.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ShoppingListId = table.Column<int>(nullable: true)
+                    ShoppingListId = table.Column<int>(nullable: true),
+                    FoodItemID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShoppingListItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShoppingListItem_FoodItem_FoodItemID",
+                        column: x => x.FoodItemID,
+                        principalTable: "FoodItem",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ShoppingListItem_ShoppingList_ShoppingListId",
                         column: x => x.ShoppingListId,
@@ -233,53 +256,38 @@ namespace Shopping.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FoodItem",
+                name: "RecipeItem",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    RecipeItemId = table.Column<int>(nullable: true),
-                    ShoppingListItemId = table.Column<int>(nullable: true),
+                    ItemID = table.Column<int>(nullable: false),
+                    FoodItemID = table.Column<int>(nullable: false),
+                    RecipeId = table.Column<int>(nullable: true),
                     PantryItemId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FoodItem", x => x.Id);
+                    table.PrimaryKey("PK_RecipeItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FoodItem_PantryItem_PantryItemId",
+                        name: "FK_RecipeItem_FoodItem_FoodItemID",
+                        column: x => x.FoodItemID,
+                        principalTable: "FoodItem",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RecipeItem_PantryItem_PantryItemId",
                         column: x => x.PantryItemId,
                         principalTable: "PantryItem",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_FoodItem_RecipeItem_RecipeItemId",
-                        column: x => x.RecipeItemId,
-                        principalTable: "RecipeItem",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_FoodItem_ShoppingListItem_ShoppingListItemId",
-                        column: x => x.ShoppingListItemId,
-                        principalTable: "ShoppingListItem",
+                        name: "FK_RecipeItem_Recipe_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "Recipe",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FoodItem_PantryItemId",
-                table: "FoodItem",
-                column: "PantryItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FoodItem_RecipeItemId",
-                table: "FoodItem",
-                column: "RecipeItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FoodItem_ShoppingListItemId",
-                table: "FoodItem",
-                column: "ShoppingListItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MealCategory_MealPlanID",
@@ -304,15 +312,32 @@ namespace Shopping.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_PantryItem_FoodItemID",
+                table: "PantryItem",
+                column: "FoodItemID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PantryItem_PantryId",
                 table: "PantryItem",
                 column: "PantryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipe_RecipeCategoryId",
+                name: "IX_Recipe_RecipeCollectionID",
                 table: "Recipe",
-                column: "RecipeCategoryId",
+                column: "RecipeCollectionID",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecipeItem_FoodItemID",
+                table: "RecipeItem",
+                column: "FoodItemID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RecipeItem_PantryItemId",
+                table: "RecipeItem",
+                column: "PantryItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipeItem_RecipeId",
@@ -331,6 +356,12 @@ namespace Shopping.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ShoppingListItem_FoodItemID",
+                table: "ShoppingListItem",
+                column: "FoodItemID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ShoppingListItem_ShoppingListId",
                 table: "ShoppingListItem",
                 column: "ShoppingListId");
@@ -339,22 +370,16 @@ namespace Shopping.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "FoodItem");
-
-            migrationBuilder.DropTable(
                 name: "MealCategory");
 
             migrationBuilder.DropTable(
                 name: "MealPlanRecipe");
 
             migrationBuilder.DropTable(
-                name: "RecipeSteps");
-
-            migrationBuilder.DropTable(
-                name: "PantryItem");
-
-            migrationBuilder.DropTable(
                 name: "RecipeItem");
+
+            migrationBuilder.DropTable(
+                name: "RecipeSteps");
 
             migrationBuilder.DropTable(
                 name: "ShoppingListItem");
@@ -363,7 +388,7 @@ namespace Shopping.Migrations
                 name: "MealPlan");
 
             migrationBuilder.DropTable(
-                name: "Pantry");
+                name: "PantryItem");
 
             migrationBuilder.DropTable(
                 name: "Recipe");
@@ -372,7 +397,13 @@ namespace Shopping.Migrations
                 name: "ShoppingList");
 
             migrationBuilder.DropTable(
-                name: "RecipeCategory");
+                name: "FoodItem");
+
+            migrationBuilder.DropTable(
+                name: "Pantry");
+
+            migrationBuilder.DropTable(
+                name: "RecipeCollection");
 
             migrationBuilder.DropTable(
                 name: "User");

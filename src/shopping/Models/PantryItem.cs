@@ -11,7 +11,8 @@ namespace Shopping.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual Pantry Pantry { get; set; }
-        public virtual ICollection<FoodItem> FoodItem { get; set; }
+        public int FoodItemID { get; set; }
+        public FoodItem FoodItem { get; set; }
+        public virtual ICollection<RecipeItem> RecipeItem { get; set; }
     }
 }
