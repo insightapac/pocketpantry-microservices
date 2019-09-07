@@ -10,13 +10,11 @@ namespace Shopping.Models
     public class Recipe
     {
         public int Id { get; set; }
-        public string RecipeName { get; set; }
+        public string RecipeName { get; set; }        
 
         public virtual ICollection<RecipeSteps> Steps { get; set; }
         public virtual ICollection<RecipeItem> Ingredients { get; set; }
-        public int RecipeCategoryId { get; set; }
-        
-        public virtual RecipeCategory RecipeCategory { get; set; }
+        public int RecipeCollectionID { get; set; }                
         public virtual ICollection<MealPlanRecipe> MealPlanRecipe { get; set; }
         
     }

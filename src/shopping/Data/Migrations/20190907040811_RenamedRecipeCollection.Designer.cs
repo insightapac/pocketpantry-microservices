@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shopping.Data;
 
 namespace Shopping.Migrations
 {
     [DbContext(typeof(ShoppingDataContext))]
-    partial class ShoppingDataContextModelSnapshot : ModelSnapshot
+    [Migration("20190907040811_RenamedRecipeCollection")]
+    partial class RenamedRecipeCollection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,13 +139,29 @@ namespace Shopping.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("RecipeCollectionID");
+                    b.Property<int>("RecipeCategoryId");
 
                     b.Property<string>("RecipeName");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RecipeCategoryId")
+                        .IsUnique();
+
                     b.ToTable("Recipe");
+                });
+
+            modelBuilder.Entity("Shopping.Models.RecipeCollection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RecipeCollection");
                 });
 
             modelBuilder.Entity("Shopping.Models.RecipeItem", b =>
@@ -273,6 +291,14 @@ namespace Shopping.Migrations
                     b.HasOne("Shopping.Models.Pantry", "Pantry")
                         .WithMany("PantryItem")
                         .HasForeignKey("PantryId");
+                });
+
+            modelBuilder.Entity("Shopping.Models.Recipe", b =>
+                {
+                    b.HasOne("Shopping.Models.RecipeCollection", "RecipeCategory")
+                        .WithOne("Recipe")
+                        .HasForeignKey("Shopping.Models.Recipe", "RecipeCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Shopping.Models.RecipeItem", b =>
