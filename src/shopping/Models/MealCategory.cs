@@ -11,6 +11,7 @@ namespace Shopping.Models
     {
         public int Id { get; set; }
         public String Name { get; set; }
+        public int MealPlanID { get; set; }
         public virtual MealPlan MealPlan { get; set; }
     }
 }
