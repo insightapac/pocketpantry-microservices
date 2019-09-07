@@ -25,18 +25,16 @@ namespace Shopping.Models
         public string Sodium { get; set; }
         public string CarbsSugar { get; set; }
         public string CarbsTotal { get; set; }
-        public int NumIngredients { get; set; }
-    
-        public virtual ICollection<RecipeSteps> Steps { get; set; }
-        public virtual ICollection<RecipeItem> Ingredients { get; set; }
-       
+        public int NumIngredients { get; set; }       
         public double CookingTime { get; set; }
         public string DifficultyLevel { get; set; }
         public double TotalCost { get; set; }
         public string RecipeDescription { get; set; }
         public string ImageUri { get; set; }
-
         public int RecipeCollectionID { get; set; }
+        public RecipeCollection RecipeCollection { get; set; }
+        public virtual ICollection<RecipeSteps> Steps { get; set; }
+        public virtual ICollection<RecipeItem> Ingredients { get; set; }
         public virtual ICollection<MealPlanRecipe> MealPlanRecipe { get; set; }
         
     }

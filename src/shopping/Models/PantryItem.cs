@@ -10,9 +10,12 @@ namespace Shopping.Models
     public class PantryItem
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int FoodItemID { get; set; }
-        public FoodItem FoodItem { get; set; }
-        public virtual ICollection<RecipeItem> RecipeItem { get; set; }
+        public int Qty { get; set; }
+        public string Unit { get; set; }
+        
+        public Pantry Pantry { get; set; }
+        public virtual ICollection<RecipeItem> RecipeItem { get; set; }        
+        public ICollection<FoodItem> FoodItems { get; set; }
+        
     }
 }
