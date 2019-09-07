@@ -12,7 +12,8 @@ namespace Shopping.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
-
+        public string ImageUri { get; set; }
+        public string Filters { get; set; }
         public ICollection<Recipe> Recipe { get; set; }
     }
 }

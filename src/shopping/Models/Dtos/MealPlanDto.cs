@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shopping.Models.Dtos
 {
-    public class MealPlanDto
+    public class CategoryDto
     {
         /*  img: 'https://www.tasteofhome.com/wp-content/uploads/2018/01/exps28800_UG143377D12_18_1b_RMS-696x696.jpg',
         name: 'All burgers',
