@@ -29,10 +29,10 @@ namespace Shopping.Controllers
             return _context.Recipe;
         }
 
-        [HttpGet("GetAll")]
-        public IEnumerable<RecipeCollection> GetRecipeCollection()
-        {
-            return  _context.RecipeCollection;                       
+        [HttpGet("GetRecipeCollection")]
+        public IEnumerable<Category> GetRecipeCollection()
+        {            
+            return  _context.Category;                       
         }
 
         // GET: api/Recipes/5
