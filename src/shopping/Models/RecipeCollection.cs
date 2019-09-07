@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace Shopping.Models
 {
-    [Table("RecipeItem")]
-    public class RecipeItem
+    [Table("RecipeCollection")]
+    public class RecipeCollection
     {
         public int Id { get; set; }
-        public int ItemID { get; set; }       
-        
-        public int FoodItemID { get; set; }
+        public string Name { get; set; }
+        public string ImageURL { get; set; }
         public virtual Recipe Recipe { get; set; }
-        public FoodItem FoodItem { get; set; }
-        public PantryItem PantryItem { get; set; }
     }
 }

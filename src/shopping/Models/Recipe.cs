@@ -10,8 +10,23 @@ namespace Shopping.Models
     public class Recipe
     {
         public int Id { get; set; }
-        public string RecipeName { get; set; }        
-
+        public string RecipeName { get; set; }
+        public string ImageURL { get; set; }
+        public string ShortDescription { get; set; }
+        public string PreparationTime { get; set; }
+        public string CookTime { get; set; }
+        public string Servings { get; set; }
+        public string Difficulty { get; set; }
+        public string Energy { get; set; }
+        public string FatTotal { get; set; }
+        public string SaturatedFat { get; set; }
+        public string Fibre { get; set; }
+        public string Protein { get; set; }
+        public string Sodium { get; set; }
+        public string CarbsSugar { get; set; }
+        public string CarbsTotal { get; set; }
+        public int NumIngredients { get; set; }
+    
         public virtual ICollection<RecipeSteps> Steps { get; set; }
         public virtual ICollection<RecipeItem> Ingredients { get; set; }
        
@@ -21,7 +36,7 @@ namespace Shopping.Models
         public string RecipeDescription { get; set; }
         public string ImageUri { get; set; }
 
-        
+        public int RecipeCollectionID { get; set; }
         public virtual ICollection<MealPlanRecipe> MealPlanRecipe { get; set; }
         
     }

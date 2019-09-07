@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20190907050107_RecipeCollection.cs" />
+    <Compile Remove="Data\Migrations\20190907050107_RecipeCollection.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
