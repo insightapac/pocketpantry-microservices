@@ -33,7 +33,7 @@ namespace Shopping.Controllers
         public IEnumerable<Recipe> GetRecipeCollection()
         {            
             
-
+            
             return _context.Recipe;
         }
 

@@ -24,6 +24,6 @@ namespace Shopping.Data
         public DbSet<MealPlanRecipe> MealPlanRecipe { get; set; }
         public DbSet<MealPlan> MealPlan { get; set; }
         public DbSet<MealCategory> MealCategory { get; set; }
-        public DbSet<RecipeCategory> RecipeCategory { get; set; }
+        public DbSet<RecipeCollection> RecipeCategory { get; set; }
     }
 }

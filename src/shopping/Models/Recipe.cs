@@ -16,7 +16,7 @@ namespace Shopping.Models
         public virtual ICollection<RecipeItem> Ingredients { get; set; }
         public int RecipeCategoryId { get; set; }
         
-        public virtual RecipeCategory RecipeCategory { get; set; }
+        public virtual RecipeCollection RecipeCategory { get; set; }
         public virtual ICollection<MealPlanRecipe> MealPlanRecipe { get; set; }
         
     }

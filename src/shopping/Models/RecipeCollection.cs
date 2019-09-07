@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shopping.Models
 {
-    [Table("RecipeCategory")]
-    public class RecipeCategory
+    [Table("RecipeCollection")]
+    public class RecipeCollection
     {
         public int Id { get; set; }
         public string Name { get; set; }
