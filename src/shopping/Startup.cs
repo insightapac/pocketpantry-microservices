@@ -28,7 +28,6 @@ namespace shopping
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c =>  
             {  
@@ -49,6 +48,13 @@ namespace shopping
             {
                 app.UseHsts();
             }
+
+            // CORS
+            // https://docs.asp.net/en/latest/security/cors.html
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:8100")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
