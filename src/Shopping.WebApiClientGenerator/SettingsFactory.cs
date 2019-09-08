@@ -1,4 +1,7 @@
-﻿using NSwag.CodeGeneration.TypeScript;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using NSwag.CodeGeneration.TypeScript;
 using NSwag.Generation.WebApi;
 
 namespace Shopping.WebApiClientGenerator
@@ -14,6 +17,11 @@ namespace Shopping.WebApiClientGenerator
             IsAspNetCore = true,
             AddMissingPathParameters = true,
             FlattenInheritanceHierarchy = false,
+            SerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Converters = { new StringEnumConverter() }
+            },
         };
 
         public static TypeScriptClientGeneratorSettings TpeScripGeneratorSettings = new TypeScriptClientGeneratorSettings
